@@ -423,7 +423,7 @@ footer .orb{font-size:.8rem}
     <div class="sec-head reveal"><span class="lvl">// 05</span><h2>¿Trabajamos <span class="grad-text">juntos</span>?</h2><p>Si tienes una vacante de servicio social, residencia o un proyecto, escríbeme.</p><div class="meteor-line"></div></div>
     <div class="contact">
       <div class="reveal">
-        <a class="c-item" href="mailto:joliegomez145@gmail.com"><div class="ic">✉️</div><div><small>CORREO</small>joliegomez145@gmail.com</div></a>
+        <a class="c-item" href="mailto:joliealvarez0119@gmail.com"><div class="ic">✉️</div><div><small>CORREO</small>joliealvarez0119@gmail.com</div></a>
         <a class="c-item" href="https://www.linkedin.com/in/américa-jolie-gómez-álvarez-1208aj1901" target="_blank" rel="noopener"><div class="ic">💼</div><div><small>LINKEDIN</small>América Jolie Gómez Álvarez</div></a>
         <div class="c-item"><div class="ic">📍</div><div><small>UBICACIÓN</small>Misantla, Veracruz, México</div></div>
       </div>
@@ -646,13 +646,13 @@ function aviso(t,ok=true){sent.textContent=t;sent.style.display='block';sent.sty
 document.getElementById('form').addEventListener('submit',async e=>{e.preventDefault();const f=e.target;
   if(document.getElementById('hp').value)return;
   if(!f.checkValidity()){f.reportValidity();return;}
-  if(!FORM_ENDPOINT){aviso('El formulario todavía no está conectado. Escríbeme directo a joliegomez145@gmail.com',false);return;}
+  if(!FORM_ENDPOINT){aviso('El formulario todavía no está conectado. Escríbeme directo a joliealvarez0119@gmail.com',false);return;}
   sendBtn.disabled=true;sendBtn.textContent='ENVIANDO…';
   try{const r=await fetch(FORM_ENDPOINT,{method:'POST',body:new FormData(f),headers:{Accept:'application/json'}});
     if(!r.ok)throw new Error();
     aviso('¡Gracias! Tu mensaje fue enviado. Te responderé lo antes posible.');f.reset();document.getElementById('cnt').textContent=0;
     if(!reduce)for(let k=0;k<4;k++)setTimeout(()=>spawnMeteor(Math.random()*W*.6,Math.random()*H*.2),k*150);
-  }catch(err){aviso('No se pudo enviar el mensaje. Intenta de nuevo o escríbeme a joliegomez145@gmail.com',false);}
+  }catch(err){aviso('No se pudo enviar el mensaje. Intenta de nuevo o escríbeme a joliealvarez0119@gmail.com',false);}
   finally{sendBtn.disabled=false;sendBtn.textContent='ENVIAR MENSAJE';}});
 </script>
 </body>
