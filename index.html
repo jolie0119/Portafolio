@@ -163,6 +163,9 @@ section{padding:110px 0;position:relative}
 .mission{position:relative;border-radius:20px;background:var(--panel);border:1px solid var(--line);overflow:hidden;cursor:pointer;transform-style:preserve-3d;transition:transform .15s,border-color .3s,box-shadow .3s,opacity .4s}
 .mission:hover{border-color:var(--line2);box-shadow:0 20px 50px rgba(0,0,0,.5),var(--glow)}
 .mission.hide{display:none}
+.mission.leaving{opacity:0!important;transform:translate(80px,-30px) skewX(-10deg) scale(.96)!important;filter:blur(6px)!important;transition:opacity .3s,transform .35s cubic-bezier(.6,0,.8,.4),filter .3s!important}
+.filter-info{font-family:'Share Tech Mono',monospace;color:var(--muted);font-size:.9rem;margin:-14px 0 22px}
+.filter-info b{color:var(--pink);font-weight:400}
 .mission.featured{grid-column:1/-1}
 @media(min-width:900px){.mission.featured{display:grid;grid-template-columns:1.3fr 1fr}}
 .m-cover{position:relative;aspect-ratio:16/10;overflow:hidden;background:#120c28}
@@ -372,6 +375,7 @@ footer .orb{font-size:.8rem}
       <button class="tab" data-f="redes">REDES</button>
       <button class="tab" data-f="so">SISTEMAS OPERATIVOS</button>
     </div>
+    <div class="filter-info reveal" id="pinfo"></div>
     <div class="missions" id="missions"></div>
   </div>
 </section>
@@ -579,16 +583,35 @@ const projects=[
 ];
 const box=document.getElementById('missions');
 projects.forEach((p,i)=>{
-  const el=document.createElement('article');el.className='mission reveal'+(p.featured?' featured':'');el.dataset.cat=p.cat.join(' ');
+  const el=document.createElement('article');el.className='mission reveal'+(p.featured?' featured':'');el.dataset.cat=p.cat.join(' ');el.dataset.id=p.id;
   const media=p.imgs?`<img src="${p.imgs[0][0]}" alt="${p.imgs[0][1]}" loading="lazy">`:cover(p.svg);
   el.innerHTML=`<div class="m-cover"><span class="rarity ${R[p.r][0]}">${R[p.r][1]}</span>${media}</div>
    <div class="m-body"><h3>${p.t}</h3><p>${p.d}</p><div class="chips">${p.tags.map(t=>`<span class="chip">${t}</span>`).join('')}</div><span class="m-more">VER DETALLES</span></div>`;
   el.addEventListener('click',()=>openModal(i));tilt(el,5);box.appendChild(el);
 });
+const pinfo=document.getElementById('pinfo');
+const CATN={todos:'todos los proyectos',escritorio:'Escritorio',datos:'Bases de datos',web:'Web',redes:'Redes',so:'Sistemas operativos'};
+function infoText(f,n){pinfo.innerHTML=f==='todos'?`Mostrando <b>${n}</b> proyectos`:`Mostrando <b>${n}</b> ${n===1?'proyecto':'proyectos'} de <b>${CATN[f]}</b>`;}
+infoText('todos',projects.length);
+let switching=false;
 document.querySelectorAll('#ptabs .tab').forEach(b=>b.onclick=()=>{
+  if(switching||b.classList.contains('active'))return;switching=true;
   document.querySelectorAll('#ptabs .tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');
-  box.querySelectorAll('.mission').forEach(m=>{const show=b.dataset.f==='todos'||m.dataset.cat.split(' ').includes(b.dataset.f);
-    m.classList.toggle('hide',!show);if(show){m.classList.remove('show');requestAnimationFrame(()=>requestAnimationFrame(()=>m.classList.add('show')));}});
+  const f=b.dataset.f,cards=[...box.querySelectorAll('.mission')];
+  /* salida tipo estrella fugaz */
+  cards.filter(m=>!m.classList.contains('hide')).forEach((m,k)=>{m.style.transitionDelay=(k*40)+'ms';m.classList.add('leaving');});
+  if(!reduce)spawnMeteor(b.getBoundingClientRect().left-120,b.getBoundingClientRect().top-120);
+  setTimeout(()=>{
+    let n=0;
+    cards.forEach(m=>{const show=f==='todos'||m.dataset.cat.split(' ').includes(f);
+      m.classList.remove('leaving','show');m.classList.toggle('hide',!show);m.classList.toggle('featured',show&&m.dataset.id==='militar'&&f==='todos');
+      if(show){m.style.transitionDelay=(n*110)+'ms';n++;}});
+    infoText(f,n);
+    requestAnimationFrame(()=>requestAnimationFrame(()=>cards.forEach(m=>{if(!m.classList.contains('hide'))m.classList.add('show');})));
+    const top=document.getElementById('ptabs').getBoundingClientRect().top;
+    if(top<70||top>innerHeight*.5)scrollTo({top:scrollY+top-90,behavior:reduce?'auto':'smooth'});
+    setTimeout(()=>{switching=false;cards.forEach(m=>m.style.transitionDelay='');},450+n*110);
+  },reduce?0:380);
 });
 
 /* modal + galería */
