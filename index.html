@@ -246,8 +246,16 @@ section{padding:110px 0;position:relative}
 .c-go i{font-style:normal;font-size:1rem;display:inline-block;transition:transform .25s}
 a.c-item:hover .c-go{color:#fbcfe8}
 a.c-item:hover .c-go i{transform:translate(4px,-4px)}
-a.c-item:hover{box-shadow:var(--glow)}
-@media(max-width:480px){.c-go{font-size:0;padding-left:6px}.c-go i{font-size:1.2rem}}
+a.c-item:hover,.c-mail:hover{box-shadow:var(--glow)}
+.c-acts{margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex:none}
+.c-acts .c-go{margin-left:0;padding-left:0}
+.c-acts .c-go:hover{color:#fbcfe8}.c-acts .c-go:hover i{transform:translate(4px,-4px)}
+.c-copy{background:none;border:1px solid var(--line2);border-radius:8px;padding:4px 9px;cursor:pointer;font-family:'Orbitron',sans-serif;font-size:.62rem;letter-spacing:.08em;color:var(--lila);display:inline-flex;align-items:center;gap:6px;transition:.2s}
+.c-copy i{font-style:normal;font-size:.9rem}
+.c-copy:hover{border-color:var(--pink);color:var(--text)}
+.c-copy.ok{border-color:var(--cyan);color:var(--cyan)}
+.mail-txt{user-select:all;-webkit-user-select:all;cursor:text}
+@media(max-width:480px){.c-go,.c-copy{font-size:0;padding-left:6px}.c-go i,.c-copy i{font-size:1.2rem}}
 .c-item .ic{width:42px;height:42px;flex:none;border-radius:12px;display:grid;place-items:center;background:rgba(139,92,246,.2);font-size:1.2rem}
 .c-item small{display:block;color:var(--muted);font-family:'Share Tech Mono';font-size:.75rem}
 form{padding:28px;border-radius:20px;background:var(--panel);border:1px solid var(--line)}
@@ -435,7 +443,7 @@ footer .orb{font-size:.8rem}
     <div class="sec-head reveal"><span class="lvl">// 05</span><h2>¿Trabajamos <span class="grad-text">juntos</span>?</h2><p>Si tienes una vacante de servicio social, residencia o un proyecto, escríbeme.</p><div class="meteor-line"></div></div>
     <div class="contact">
       <div class="reveal">
-        <a class="c-item" href="https://mail.google.com/mail/?view=cm&fs=1&to=joliealvarez0119@gmail.com&su=Contacto%20desde%20tu%20portafolio%20web" target="_blank" rel="noopener"><div class="ic">✉️</div><div><small>CORREO</small>joliealvarez0119@gmail.com</div><span class="c-go">Escribir correo <i>↗</i></span></a>
+        <div class="c-item c-mail"><div class="ic">✉️</div><div><small>CORREO</small><span class="mail-txt" id="mailTxt">joliealvarez0119@gmail.com</span></div><div class="c-acts"><button class="c-copy" type="button" id="copyMail">Copiar <i>⧉</i></button><a class="c-go" href="https://mail.google.com/mail/?view=cm&fs=1&to=joliealvarez0119@gmail.com&su=Contacto%20desde%20tu%20portafolio%20web" target="_blank" rel="noopener">Escribir correo <i>↗</i></a></div></div>
         <a class="c-item" href="https://www.linkedin.com/in/america-jolie-gomez-alvarez-1208aj1901" target="_blank" rel="noopener"><div class="ic">💼</div><div><small>LINKEDIN</small>América Jolie Gómez Álvarez</div><span class="c-go">Ver perfil <i>↗</i></span></a>
         <div class="c-item"><div class="ic">📍</div><div><small>UBICACIÓN</small>Misantla, Veracruz, México</div></div>
       </div>
@@ -678,6 +686,14 @@ const pio=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)retur
   e.target.querySelectorAll('[data-count]').forEach(b=>{const end=+b.dataset.count;let n=0;const iv=setInterval(()=>{b.textContent=++n;if(n>=end)clearInterval(iv);},120);});
   e.target.querySelectorAll('.xp-bar i').forEach(b=>setTimeout(()=>b.style.width=b.dataset.w+'%',300));pio.unobserve(e.target);}),{threshold:.3});
 pio.observe(document.getElementById('player'));
+
+/* ---------- copiar correo ---------- */
+const copyBtn=document.getElementById('copyMail');
+copyBtn.addEventListener('click',async()=>{const t=document.getElementById('mailTxt').textContent;let ok=false;
+  try{await navigator.clipboard.writeText(t);ok=true;}catch(e){
+    try{const r=document.createRange();r.selectNodeContents(document.getElementById('mailTxt'));const sel=getSelection();sel.removeAllRanges();sel.addRange(r);ok=document.execCommand('copy');}catch(e2){}}
+  copyBtn.classList.add('ok');copyBtn.innerHTML=ok?'¡Copiado! <i>✓</i>':'Selecciónalo <i>✎</i>';
+  setTimeout(()=>{copyBtn.classList.remove('ok');copyBtn.innerHTML='Copiar <i>⧉</i>';},1800);});
 
 /* ---------- formulario ---------- */
 const fm=document.getElementById('fm');fm.addEventListener('input',()=>document.getElementById('cnt').textContent=fm.value.length);
