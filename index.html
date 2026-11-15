@@ -318,7 +318,7 @@ footer .orb{font-size:.8rem}
           <div class="xp-bar"><i data-w="55.5"></i></div>
         </div>
         <div class="p-stats">
-          <div><b class="grad-text" data-count="4">0</b><small>proyectos</small></div>
+          <div><b class="grad-text" data-count="6">0</b><small>proyectos</small></div>
           <div><b class="grad-text" data-count="7">0</b><small>lenguajes</small></div>
           <div><b class="grad-text" data-count="4">0</b><small>empleos</small></div>
         </div>
@@ -370,6 +370,7 @@ footer .orb{font-size:.8rem}
       <button class="tab" data-f="datos">BASES DE DATOS</button>
       <button class="tab" data-f="web">WEB</button>
       <button class="tab" data-f="redes">REDES</button>
+      <button class="tab" data-f="so">SISTEMAS OPERATIVOS</button>
     </div>
     <div class="missions" id="missions"></div>
   </div>
@@ -397,6 +398,7 @@ footer .orb{font-size:.8rem}
       <button class="tab" data-f="lenguajes">LENGUAJES</button>
       <button class="tab" data-f="datos">BASES DE DATOS</button>
       <button class="tab" data-f="redes">REDES</button>
+      <button class="tab" data-f="so">SISTEMAS OPERATIVOS</button>
       <button class="tab" data-f="herramientas">HERRAMIENTAS</button>
     </div>
     <div class="skills" id="skills"></div>
@@ -409,7 +411,7 @@ footer .orb{font-size:.8rem}
     <div class="sec-head reveal"><span class="lvl">// 04</span><h2>Formación y <span class="grad-text">experiencia</span></h2><p>Mi formación y experiencia laboral.</p><div class="meteor-line"></div></div>
     <div class="quests">
       <div class="quest reveal"><div class="node"></div><div class="card"><small>PRÓXIMO PASO</small><h4>Servicio social y residencias</h4><p>Busco un lugar donde aportar, aprender y crecer, de preferencia en remoto.</p></div></div>
-      <div class="quest reveal"><div class="node"></div><div class="card"><small>EN CURSO</small><h4>Ingeniería en Sistemas Computacionales</h4><p>Instituto Tecnológico Superior de Misantla · Taller de Base de Datos, Ingeniería de Software y Tópicos Avanzados de Programación.</p></div></div>
+      <div class="quest reveal"><div class="node"></div><div class="card"><small>EN CURSO</small><h4>Ingeniería en Sistemas Computacionales</h4><p>Instituto Tecnológico Superior de Misantla · Taller de Base de Datos, Ingeniería de Software, Taller de Sistemas Operativos y Tópicos Avanzados de Programación.</p></div></div>
       <div class="quest reveal"><div class="node"></div><div class="card"><small>EXPERIENCIA</small><h4>Bodega Aurrera · Cajera y farmacia</h4><p>Manejo de caja, cobros con distintos métodos de pago y atención en farmacia.</p></div></div>
       <div class="quest reveal"><div class="node"></div><div class="card"><small>EXPERIENCIA</small><h4>Soriana y Coppel · Cajera y recepcionista</h4><p>Atención y orientación a clientes, recepción y cobro.</p></div></div>
       <div class="quest reveal"><div class="node"></div><div class="card"><small>EXPERIENCIA</small><h4>Boutique · Ventas</h4><p>Atención personalizada y ventas.</p></div></div>
@@ -542,7 +544,7 @@ function cover(kind){
 }
 
 /* ---------- proyectos ---------- */
-const R={leg:['leg','★ PROYECTO DESTACADO'],epic:['epic','BASE DE DATOS'],rare:['rare','REDES'],web:['rare','DESARROLLO WEB']};
+const R={leg:['leg','★ PROYECTO DESTACADO'],leg2:['rare','REDES Y SEGURIDAD'],epic:['epic','BASE DE DATOS'],rare:['rare','REDES'],web:['rare','DESARROLLO WEB'],so:['epic','SISTEMAS OPERATIVOS']};
 const projects=[
  {id:'militar',cat:['escritorio','datos'],r:'leg',featured:true,t:'Sistema de Inventario Militar',
   d:'Aplicación de escritorio para controlar insumos militares, al personal y quién tiene qué equipo asignado. Proyecto de Tópicos Avanzados de Programación.',
@@ -554,11 +556,21 @@ const projects=[
   tags:['MySQL','SQL','3FN','BPMN','UML'],
   more:['12 tablas normalizadas hasta 3FN con modelo E-R y modelo relacional.','Consultas anidadas, joins, vistas, transacciones con COMMIT/ROLLBACK y procedimientos almacenados.','Seguridad con 5 grupos de trabajo y usuarios con privilegios por departamento.','Proceso de venta modelado en BPMN con Bizagi; casos de uso y diagrama de clases en 3 capas.'],
   svg:'ventas'},
- {id:'server',cat:['redes'],r:'rare',t:'Servidor web personal',
-  d:'Mi propio servidor Apache al que entro de forma segura desde mi celular, aunque esté en otra red.',
-  tags:['Apache','Tailscale','Redes','Seguridad'],
-  more:['Servidor Apache configurado en mi laptop.','Acceso restringido por IP.','Conexión segura entre redes distintas con Tailscale desde Android.'],
-  svg:'server'},
+ {id:'server',cat:['redes','so'],r:'leg2',t:'Servidor web privado en Kali Linux',
+  d:'Servidor web con Apache2 en Kali Linux, accesible desde cualquier red mediante Tailscale y protegido con reglas de firewall para que solo un dispositivo autorizado pueda entrar. Taller de Sistemas Operativos.',
+  tags:['Kali Linux','Apache2','Tailscale','iptables','HTML/CSS'],
+  more:['Instalación y configuración de Apache2 como servicio con systemctl.','Red privada con Tailscale: IP fija para la laptop y el celular, sin importar la red WiFi o los datos móviles.','Firewall con iptables: el puerto 80 queda bloqueado para todos y solo se permite la IP del celular autorizado.','Permisos del sitio con chmod 644 y propietario www-data.','Página index.html con diseño en CSS, consultada desde el celular a través de Tailscale.'],
+  imgs:[['img/servidor-pagina.jpg','Página final vista desde el celular a través de Tailscale'],['img/servidor-iptables.jpg','Reglas de iptables: acceso solo para la IP autorizada'],['img/servidor-iptables2.jpg','Bloqueo del puerto 80 y regla de acceso'],['img/servidor-html.jpg','Contenido del index.html servido por Apache'],['img/servidor-tailscale.jpg','Instalación de Tailscale en Kali Linux']]},
+ {id:'dualboot',cat:['so'],r:'so',t:'Instalación de Kali Linux en arranque dual',
+  d:'Instalación de Kali Linux en una partición del disco de un equipo con Windows, para usar ambos sistemas en la misma computadora. Taller de Sistemas Operativos.',
+  tags:['Kali Linux','Particiones','GRUB','USB booteable','Dual boot'],
+  more:['Creación de una partición nueva desde el Administrador de discos de Windows.','Arranque desde una memoria USB booteable con Ventoy y la ISO de Kali Linux.','Configuración del instalador: idioma, teclado, red Wi-Fi, nombre de host, usuario y zona horaria.','Particionado manual usando el espacio libre reservado.','Instalación del gestor de arranque GRUB para elegir entre Kali Linux y Windows al encender.'],
+  imgs:[['img/linux-escritorio.jpg','Escritorio de Kali Linux ya instalado'],['img/linux-instalador.jpg','Menú del instalador de Kali Linux'],['img/linux-grub-instalacion.jpg','Instalación del gestor de arranque GRUB'],['img/linux-grub.jpg','Arranque de Kali Linux'],['img/linux-login.jpg','Inicio de sesión en Kali Linux']]},
+ {id:'vm',cat:['so'],r:'so',t:'Virtualización de Kali Linux',
+  d:'Instalación y configuración de Kali Linux en una máquina virtual con VirtualBox, con práctica de administración de archivos y permisos desde la terminal. Taller de Sistemas Operativos.',
+  tags:['VirtualBox','Kali Linux','Bash','Permisos'],
+  more:['Importación de la imagen de Kali Linux en VirtualBox.','Asignación de recursos: 2048 MB de memoria, núcleos de procesador, orden de arranque y aceleración por hardware.','Manejo de archivos y carpetas desde la terminal: mkdir, cp, mv, rm y echo.','Cambio de permisos a solo lectura con chmod y verificación con ls -R.'],
+  imgs:[['img/vm-terminal.jpg','Estructura de carpetas creada desde la terminal'],['img/vm-recursos.jpg','Memoria y orden de arranque de la máquina virtual'],['img/vm-config.jpg','Configuración del procesador'],['img/vm-comandos.jpg','Creación de archivos con comandos'],['img/vm-login.jpg','Escritorio de Kali Linux en la máquina virtual']]},
  {id:'notacion',cat:['web'],r:'web',t:'Convertidor de notaciones',
   d:'Página web que convierte expresiones entre notación infija, prefija y postfija.',
   tags:['HTML','CSS','JavaScript','Pilas'],
@@ -611,10 +623,11 @@ addEventListener('keydown',e=>{if(e.key==='Escape'){document.getElementById('zoo
 const skills=[
  ['SQL / MySQL','datos',7],['Modelado E-R y normalización','datos',6],['MariaDB','datos',5],
  ['C#','lenguajes',6],['C++','lenguajes',6],['Python','lenguajes',6],['HTML y CSS','lenguajes',6],['JavaScript','lenguajes',5],
- ['Apache','redes',4],['Tailscale','redes',4],['Packet Tracer','redes',4],
+ ['Apache','redes',4],['Tailscale','redes',4],['Packet Tracer','redes',4],['iptables (firewall)','redes',4],
+ ['Linux / Kali Linux','so',5],['Terminal Bash','so',5],['VirtualBox','so',5],
  ['VS Code','herramientas',7],['Visual Studio','herramientas',6],['GitHub','herramientas',5],['draw.io (UML)','herramientas',7],['Bizagi (BPMN)','herramientas',6],['Canva','herramientas',7],['Microsoft Office','herramientas',7]
 ];
-const NAMES={datos:'BASE DE DATOS',lenguajes:'LENGUAJE',redes:'REDES',herramientas:'HERRAMIENTA'};
+const NAMES={datos:'BASE DE DATOS',lenguajes:'LENGUAJE',redes:'REDES',so:'SIST. OPERATIVOS',herramientas:'HERRAMIENTA'};
 const sk=document.getElementById('skills');
 skills.forEach(([n,c,v])=>{const d=document.createElement('div');d.className='skill reveal';d.dataset.c=c;d.dataset.v=v;
   d.innerHTML=`<div class="sk-top"><b>${n}</b><small>${NAMES[c]}</small></div><div class="segs">${'<i></i>'.repeat(10)}</div>`;sk.appendChild(d);});
