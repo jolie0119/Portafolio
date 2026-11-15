@@ -271,7 +271,7 @@ textarea{min-height:130px;resize:vertical;margin-bottom:4px}
 footer{padding:40px 0;text-align:center;color:var(--muted);font-size:.9rem;border-top:1px solid var(--line)}
 footer .orb{font-size:.8rem}
 
-html,body{max-width:100%;overflow-x:hidden}
+html,body{max-width:100%;overflow-x:clip}
 .hero h1 .glitch{max-width:100%}
 .mail-txt{word-break:break-all}
 @media(min-width:900px){.mission.featured{grid-template-columns:minmax(0,1.3fr) minmax(0,1fr)}}
@@ -304,6 +304,51 @@ html,body{max-width:100%;overflow-x:hidden}
   .g-thumbs button{width:70px;height:46px}
   .scroll-hint{display:none}
   .grid-floor{height:28vh}
+}
+
+/* ===== deslizar (móvil) ===== */
+.swipe{position:relative}
+.swipe-hint{display:none}
+.dots{display:none}
+@media(max-width:600px){
+  .swipe::after{content:"";position:absolute;top:0;right:-16px;bottom:6px;width:56px;pointer-events:none;background:linear-gradient(90deg,transparent,var(--void));transition:opacity .4s}
+  .swipe.swiped::after,.swipe.at-end::after{opacity:0}
+  .swipe-hint{display:inline-flex;align-items:center;gap:6px;position:absolute;right:0;top:-26px;font-family:'Share Tech Mono',monospace;font-size:.75rem;color:var(--pink);pointer-events:none;transition:opacity .4s}
+  .swipe-hint i{font-style:normal;display:inline-block;animation:nudge 1.2s ease-in-out infinite}
+  .swipe.swiped .swipe-hint{opacity:0}
+  @keyframes nudge{0%,100%{transform:translateX(0)}50%{transform:translateX(6px)}}
+  .swipe-cards .swipe-hint{top:auto;bottom:-24px;right:auto;left:50%;transform:translateX(-50%);color:var(--lila)}
+  .swipe-cards::after{bottom:10px;top:0}
+  /* carrusel de proyectos */
+  .missions{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:14px;margin:0 -16px;padding:6px 16px 14px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .missions::-webkit-scrollbar{display:none}
+  .mission,.mission.featured{flex:0 0 86%;scroll-snap-align:center;display:block}
+  .mission .m-cover{aspect-ratio:16/10}
+  .mission.featured .m-cover{min-height:0}
+  .dots{display:flex;justify-content:center;gap:8px;margin-top:34px}
+  .dots i{width:8px;height:8px;border-radius:99px;background:var(--line2);transition:width .3s,background .3s}
+  .dots i.on{width:24px;background:var(--grad);box-shadow:0 0 10px rgba(244,114,182,.6)}
+  /* insignias "Soy una persona" */
+  .achs{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+  .ach{flex-direction:column;text-align:center;gap:8px;padding:14px 6px;border-color:transparent;background:linear-gradient(var(--panel2),var(--panel2)) padding-box,linear-gradient(140deg,rgba(244,114,182,.7),rgba(139,92,246,.35),rgba(96,165,250,.7)) border-box;border:1px solid transparent}
+  .ach .ic{width:44px;height:44px;border-radius:50%;font-size:1.35rem;background:radial-gradient(circle,rgba(244,114,182,.28),rgba(139,92,246,.12));box-shadow:0 0 16px rgba(139,92,246,.35)}
+  .ach b{font-size:.82rem}
+  .ach:last-child:nth-child(3n+1){grid-column:2}
+  .ach:nth-child(odd) .ic{animation:float 3s ease-in-out infinite}
+  .ach:nth-child(even) .ic{animation:float 3s ease-in-out 1.5s infinite}
+  @keyframes float{50%{transform:translateY(-4px)}}
+  /* habilidades en 2 columnas */
+  .skills{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .skill{padding:12px}
+  .sk-top{flex-direction:column;align-items:flex-start;gap:2px;margin-bottom:10px}
+  .sk-top b{font-size:.88rem;line-height:1.25}
+  .sk-top small{font-size:.62rem}
+  .segs{gap:3px}.segs i{height:8px}
+  /* toques extra */
+  .sec-head h2{position:relative}
+  .sec-head h2::before{content:"✦";position:absolute;right:0;top:-8px;font-size:1rem;color:var(--pink);opacity:.8;animation:twinkle 2.4s ease-in-out infinite}
+  @keyframes twinkle{50%{opacity:.2;transform:scale(.7) rotate(30deg)}}
+  .quest .card{background:linear-gradient(var(--panel2),var(--panel2)) padding-box,linear-gradient(140deg,rgba(244,114,182,.5),rgba(96,165,250,.4)) border-box;border:1px solid transparent}
 }
 @media (prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important}
@@ -370,7 +415,7 @@ html,body{max-width:100%;overflow-x:hidden}
           <div class="xp-bar"><i data-w="55.5"></i></div>
         </div>
         <div class="p-stats">
-          <div><b class="grad-text" data-count="6">0</b><small>proyectos</small></div>
+          <div><b class="grad-text" data-count="5">0</b><small>proyectos</small></div>
           <div><b class="grad-text" data-count="7">0</b><small>lenguajes</small></div>
           <div><b class="grad-text" data-count="4">0</b><small>empleos</small></div>
         </div>
@@ -416,16 +461,16 @@ html,body{max-width:100%;overflow-x:hidden}
 <section id="proyectos">
   <div class="wrap">
     <div class="sec-head reveal"><span class="lvl">// 02</span><h2>Proyectos <span class="grad-text">destacados</span></h2><p>Da clic en cualquier proyecto para ver capturas y detalles.</p><div class="meteor-line"></div></div>
-    <div class="tabs reveal" id="ptabs">
+    <div class="swipe reveal" id="pswipe"><div class="tabs" id="ptabs">
       <button class="tab active" data-f="todos">TODOS</button>
       <button class="tab" data-f="escritorio">ESCRITORIO</button>
       <button class="tab" data-f="datos">BASES DE DATOS</button>
-      <button class="tab" data-f="web">WEB</button>
       <button class="tab" data-f="redes">REDES</button>
       <button class="tab" data-f="so">SISTEMAS OPERATIVOS</button>
-    </div>
+    </div><span class="swipe-hint">Desliza <i>⟶</i></span></div>
     <div class="filter-info reveal" id="pinfo"></div>
-    <div class="missions" id="missions"></div>
+    <div class="swipe swipe-cards" id="mswipe"><div class="missions" id="missions"></div><span class="swipe-hint">Desliza para ver más <i>⟶</i></span></div>
+    <div class="dots" id="pdots"></div>
   </div>
 </section>
 
@@ -446,14 +491,14 @@ html,body{max-width:100%;overflow-x:hidden}
 <section id="habilidades">
   <div class="wrap">
     <div class="sec-head reveal"><span class="lvl">// 03</span><h2>Habilidades <span class="grad-text">técnicas</span></h2><p>Lenguajes, bases de datos y herramientas con las que trabajo.</p><div class="meteor-line"></div></div>
-    <div class="tabs reveal" id="stabs">
+    <div class="swipe reveal" id="sswipe"><div class="tabs" id="stabs">
       <button class="tab active" data-f="todos">TODAS</button>
       <button class="tab" data-f="lenguajes">LENGUAJES</button>
       <button class="tab" data-f="datos">BASES DE DATOS</button>
       <button class="tab" data-f="redes">REDES</button>
       <button class="tab" data-f="so">SISTEMAS OPERATIVOS</button>
       <button class="tab" data-f="herramientas">HERRAMIENTAS</button>
-    </div>
+    </div><span class="swipe-hint">Desliza <i>⟶</i></span></div>
     <div class="skills" id="skills"></div>
   </div>
 </section>
@@ -630,11 +675,6 @@ const projects=[
   tags:['VirtualBox','Kali Linux','Bash','Permisos'],
   more:['Importación de la imagen de Kali Linux en VirtualBox.','Asignación de recursos: 2048 MB de memoria, núcleos de procesador, orden de arranque y aceleración por hardware.','Manejo de archivos y carpetas desde la terminal: mkdir, cp, mv, rm y echo.','Cambio de permisos a solo lectura con chmod y verificación con ls -R.'],
   imgs:[['img/vm-terminal.jpg','Estructura de carpetas creada desde la terminal'],['img/vm-recursos.jpg','Memoria y orden de arranque de la máquina virtual'],['img/vm-config.jpg','Configuración del procesador'],['img/vm-comandos.jpg','Creación de archivos con comandos'],['img/vm-login.jpg','Escritorio de Kali Linux en la máquina virtual']]},
- {id:'notacion',cat:['web'],r:'web',t:'Convertidor de notaciones',
-  d:'Página web que convierte expresiones entre notación infija, prefija y postfija.',
-  tags:['HTML','CSS','JavaScript','Pilas'],
-  more:['Conversión en todas las direcciones: infija ↔ prefija ↔ postfija.','Algoritmos con pilas, como en Lenguajes y Autómatas.'],
-  svg:'web'}
 ];
 const box=document.getElementById('missions');
 projects.forEach((p,i)=>{
@@ -662,6 +702,7 @@ document.querySelectorAll('#ptabs .tab').forEach(b=>b.onclick=()=>{
       m.classList.remove('leaving','show');m.classList.toggle('hide',!show);m.classList.toggle('featured',show&&m.dataset.id==='militar'&&f==='todos');
       if(show){m.style.transitionDelay=(n*110)+'ms';n++;}});
     infoText(f,n);
+    box.scrollLeft=0;document.getElementById('mswipe').classList.remove('at-end');setTimeout(buildDots,60);
     requestAnimationFrame(()=>requestAnimationFrame(()=>cards.forEach(m=>{if(!m.classList.contains('hide'))m.classList.add('show');})));
     const top=document.getElementById('ptabs').getBoundingClientRect().top;
     if(top<70||top>innerHeight*.5)scrollTo({top:scrollY+top-90,behavior:reduce?'auto':'smooth'});
@@ -669,6 +710,23 @@ document.querySelectorAll('#ptabs .tab').forEach(b=>b.onclick=()=>{
   },reduce?0:380);
 });
 
+
+/* ---------- indicadores de deslizar ---------- */
+function watchSwipe(wrap,scroller){const upd=()=>{if(scroller.scrollLeft>8)wrap.classList.add('swiped');
+  wrap.classList.toggle('at-end',scroller.scrollLeft+scroller.clientWidth>=scroller.scrollWidth-4);};
+  scroller.addEventListener('scroll',upd,{passive:true});upd();}
+watchSwipe(document.getElementById('pswipe'),document.getElementById('ptabs'));
+watchSwipe(document.getElementById('sswipe'),document.getElementById('stabs'));
+watchSwipe(document.getElementById('mswipe'),box);
+/* puntitos del carrusel */
+const pdots=document.getElementById('pdots');
+function visibleCards(){return [...box.querySelectorAll('.mission')].filter(m=>!m.classList.contains('hide'));}
+function buildDots(){const v=visibleCards();pdots.innerHTML=v.map(()=>'<i></i>').join('');syncDots();}
+function syncDots(){const v=visibleCards();if(!v.length)return;const c=box.scrollLeft+box.clientWidth/2;let k=0,best=1e9;
+  v.forEach((m,i)=>{const d=Math.abs(m.offsetLeft+m.offsetWidth/2-c);if(d<best){best=d;k=i;}});
+  pdots.querySelectorAll('i').forEach((d,i)=>d.classList.toggle('on',i===k));}
+let dt=false;box.addEventListener('scroll',()=>{if(dt)return;dt=true;requestAnimationFrame(()=>{dt=false;syncDots();});},{passive:true});
+buildDots();addEventListener('resize',syncDots);
 /* modal + galería */
 const modal=document.getElementById('modal'),gMain=document.getElementById('gMain'),gCap=document.getElementById('gCap'),gThumbs=document.getElementById('gThumbs');
 let cur=null,gi=0;
