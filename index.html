@@ -640,7 +640,7 @@ pio.observe(document.getElementById('player'));
 /* ---------- formulario ---------- */
 const fm=document.getElementById('fm');fm.addEventListener('input',()=>document.getElementById('cnt').textContent=fm.value.length);
 /* Pega aquí el enlace que te da Formspree, por ejemplo: https://formspree.io/f/abcdwxyz */
-const FORM_ENDPOINT='';
+const FORM_ENDPOINT='https://formspree.io/f/xaeoeweo';
 const sent=document.getElementById('sent'),sendBtn=document.getElementById('sendBtn');
 function aviso(t,ok=true){sent.textContent=t;sent.style.display='block';sent.style.borderColor=ok?'rgba(103,232,249,.4)':'rgba(244,114,182,.6)';sent.style.color=ok?'#a5f3fc':'#fbcfe8';}
 document.getElementById('form').addEventListener('submit',async e=>{e.preventDefault();const f=e.target;
